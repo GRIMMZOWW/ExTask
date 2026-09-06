@@ -65,7 +65,7 @@ function Landing() {
           </div>
 
           <div className="hero-right">
-            <GlareHover maxTilt={6} glareMaxOpacity={0.14}>
+            <GlareHover maxTilt={6} glareMaxOpacity={0.14} style={{ width: '100%', maxWidth: '480px' }}>
               <div className="product-preview-panel">
                 <div className="preview-panel-header">
                   <span className="panel-dot red"></span>
