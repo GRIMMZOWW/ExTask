@@ -117,7 +117,7 @@ function Dashboard() {
           {/* Two-Column Quick Actions & Recent Activity Layout */}
           <div className="dashboard-layout-grid">
             {/* Recent Activity List */}
-            <div className="detail-main" style={{ padding: '24px' }}>
+            <SpotlightCard className="detail-main" spotlightColor="rgba(20, 184, 166, 0.06)" style={{ padding: '24px' }}>
               <h3 className="detail-section-title" style={{ marginBottom: '16px', fontSize: '0.85rem' }}>Recent Activity</h3>
               {sortedRecentTasks.length > 0 ? (
                 <div className="task-table" style={{ width: '100%' }}>
@@ -143,13 +143,13 @@ function Dashboard() {
                   <p>No recent activity. Try posting or browsing tasks.</p>
                 </div>
               )}
-            </div>
+            </SpotlightCard>
 
             {/* Quick Actions Panel */}
-            <div className="detail-sidebar" style={{ padding: '24px' }}>
+            <SpotlightCard className="detail-sidebar" spotlightColor="rgba(20, 184, 166, 0.06)" style={{ padding: '24px' }}>
               <h3 className="sidebar-heading" style={{ marginBottom: '16px' }}>Quick Actions</h3>
               <div className="action-zone">
-                <StarBorder color="#2dd4bf" speed="4.5s" style={{ width: '100%' }}>
+                <StarBorder color="#00e5ff" glowColor="#2dd4bf" speed="3.5s" style={{ width: '100%' }}>
                   <Link to="/post" className="btn-primary btn-full" style={{ fontSize: '0.8rem', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', width: '100%', margin: 0 }}>
                     <FiPlus size={14} /> Post a Task
                   </Link>
@@ -161,7 +161,7 @@ function Dashboard() {
                   <FiInbox size={14} /> View All My Tasks
                 </Link>
               </div>
-            </div>
+            </SpotlightCard>
           </div>
         </FadeContent>
       )}

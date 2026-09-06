@@ -2,13 +2,15 @@ import React from 'react';
 
 /**
  * StarBorder — React Bits component
- * Subtle glowing star border trail effect around CTA buttons or cards.
+ * Vibrant glowing star border trail effect around CTA buttons and cards.
  */
 const StarBorder = ({
-  as: Component = 'button',
+  as: Component = 'div',
   className = '',
-  color = '#14b8a6',
-  speed = '4s',
+  color = '#00e5ff',
+  glowColor = '#2dd4bf',
+  speed = '3.5s',
+  thickness = '2px',
   children,
   style = {},
   innerStyle = {},
@@ -23,26 +25,41 @@ const StarBorder = ({
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        borderRadius: 'var(--radius-md, 10px)',
-        padding: '1.5px',
+        borderRadius: 'var(--radius-md, 12px)',
+        padding: thickness,
         background: 'transparent',
         border: 'none',
-        cursor: 'pointer',
         textDecoration: 'none',
+        boxSizing: 'border-box',
         ...style,
       }}
       {...props}
     >
+      {/* Outer ambient glow beam */}
+      <div
+        className="star-border-glow"
+        style={{
+          position: 'absolute',
+          inset: '-200%',
+          background: `conic-gradient(from 0deg, transparent 0 260deg, ${glowColor}44 310deg, ${color} 360deg)`,
+          animation: `starRotate ${speed} linear infinite`,
+          filter: `drop-shadow(0 0 8px ${color})`,
+          zIndex: 0,
+        }}
+      />
+      
+      {/* Sharp core beam */}
       <div
         className="star-border-beam"
         style={{
           position: 'absolute',
           inset: '-200%',
-          background: `conic-gradient(from 0deg, transparent 0 340deg, ${color} 360deg)`,
+          background: `conic-gradient(from 0deg, transparent 0 270deg, ${glowColor}66 320deg, ${color} 360deg)`,
           animation: `starRotate ${speed} linear infinite`,
           zIndex: 0,
         }}
       />
+      
       <div
         className="star-border-inner"
         style={{
@@ -54,6 +71,7 @@ const StarBorder = ({
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 'inherit',
+          background: 'inherit',
           ...innerStyle,
         }}
       >

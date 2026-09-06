@@ -3,7 +3,9 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
 import SpotlightCard from '../components/SpotlightCard';
+import StarBorder from '../components/StarBorder';
 import BrandMedia from '../components/BrandMedia';
+import ScrambledText from '../components/ScrambledText';
 import { 
   FiDollarSign, 
   FiTag, 
@@ -212,7 +214,7 @@ function TaskDetail() {
       <div className="page-header detail-header">
         <BrandMedia
           variant="detail"
-          badge="TASK EXCHANGE"
+          badge={<ScrambledText text="TASK EXCHANGE" speed={30} />}
           title={task ? `Task #${task.id}: ${task.title}` : 'Task Details'}
           subtitle="Review task specifications, deliverables, and milestone payouts."
         />
@@ -236,8 +238,8 @@ function TaskDetail() {
         </div>
       ) : (
         <div className="detail-layout">
-          {/* LEFT: Task Info */}
-          <div className="detail-main">
+          {/* LEFT: Task Info with SpotlightCard */}
+          <SpotlightCard className="detail-main" spotlightColor="rgba(20, 184, 166, 0.08)">
             {isAdmin && (
               <div className="admin-view-banner">
                 <FiShield size={16} />
@@ -317,10 +319,10 @@ function TaskDetail() {
                 </pre>
               </div>
             )}
-          </div>
+          </SpotlightCard>
 
-          {/* RIGHT: Action Panel */}
-          <SpotlightCard className="detail-sidebar" spotlightColor="rgba(13, 148, 136, 0.08)">
+          {/* RIGHT: Action Panel with SpotlightCard */}
+          <SpotlightCard className="detail-sidebar" spotlightColor="rgba(20, 184, 166, 0.08)">
             <h3 className="sidebar-heading">Task Status & Actions</h3>
             
             <div className="action-zone">
@@ -369,9 +371,11 @@ function TaskDetail() {
                 <>
                   {/* OPEN TASK ACTIONS */}
                   {task.status === 'OPEN' && !isPoster && (
-                    <button onClick={handleAccept} className="btn-primary btn-full" disabled={actionLoading}>
-                      {actionLoading ? "Accepting..." : "Accept Task"}
-                    </button>
+                    <StarBorder color="#00e5ff" glowColor="#2dd4bf" speed="3s" style={{ width: '100%' }}>
+                      <button onClick={handleAccept} className="btn-primary btn-full" disabled={actionLoading} style={{ width: '100%', margin: 0 }}>
+                        {actionLoading ? "Accepting..." : "Accept Task"}
+                      </button>
+                    </StarBorder>
                   )}
 
                   {task.status === 'OPEN' && isPoster && (
@@ -397,9 +401,11 @@ function TaskDetail() {
                           onChange={(e) => setDeliveryContent(e.target.value)}
                         />
                       </div>
-                      <button type="submit" className="btn-primary btn-full" disabled={actionLoading}>
-                        <FiSend /> {actionLoading ? "Submitting..." : "Submit Deliverables"}
-                      </button>
+                      <StarBorder color="#00e5ff" glowColor="#2dd4bf" speed="3s" style={{ width: '100%' }}>
+                        <button type="submit" className="btn-primary btn-full" disabled={actionLoading} style={{ width: '100%', margin: 0 }}>
+                          <FiSend /> {actionLoading ? "Submitting..." : "Submit Deliverables"}
+                        </button>
+                      </StarBorder>
                     </form>
                   )}
 
@@ -415,18 +421,22 @@ function TaskDetail() {
                           onChange={(e) => setDeliveryContent(e.target.value)}
                         />
                       </div>
-                      <button type="submit" className="btn-primary btn-full" disabled={actionLoading}>
-                        <FiSend /> {actionLoading ? "Submitting..." : "Submit Revised Deliverables"}
-                      </button>
+                      <StarBorder color="#00e5ff" glowColor="#2dd4bf" speed="3s" style={{ width: '100%' }}>
+                        <button type="submit" className="btn-primary btn-full" disabled={actionLoading} style={{ width: '100%', margin: 0 }}>
+                          <FiSend /> {actionLoading ? "Submitting..." : "Submit Revised Deliverables"}
+                        </button>
+                      </StarBorder>
                     </form>
                   )}
 
                   {/* SUBMITTED TASK ACTIONS: Poster approves or requests changes */}
                   {task.status === 'SUBMITTED' && isPoster && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <button onClick={handleApproveAndPay} className="btn-pay btn-full" disabled={actionLoading}>
-                        <FiCheckCircle /> {actionLoading ? "Processing..." : `Approve & Pay (${task.budget} INR)`}
-                      </button>
+                      <StarBorder color="#10b981" glowColor="#34d399" speed="3s" style={{ width: '100%' }}>
+                        <button onClick={handleApproveAndPay} className="btn-pay btn-full" disabled={actionLoading} style={{ width: '100%', margin: 0 }}>
+                          <FiCheckCircle /> {actionLoading ? "Processing..." : `Approve & Pay (${task.budget} INR)`}
+                        </button>
+                      </StarBorder>
                       
                       {!showRevisionModal ? (
                         <button 

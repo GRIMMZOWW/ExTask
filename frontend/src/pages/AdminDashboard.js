@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
-import { FiUsers, FiLayers, FiCreditCard, FiArrowRight, FiShield } from 'react-icons/fi';
+import { FiUsers, FiLayers, FiCreditCard, FiArrowRight } from 'react-icons/fi';
 import BrandMedia from '../components/BrandMedia';
+import SpotlightCard from '../components/SpotlightCard';
+import MorphSlider from '../components/MorphSlider';
+import ScrambledText from '../components/ScrambledText';
 
 function AdminDashboard() {
   const [users, setUsers] = useState([]);
@@ -56,12 +59,18 @@ function AdminDashboard() {
   const totalBudget = tasks.reduce((sum, t) => sum + (t.budget || 0), 0);
   const totalPaid = payments.filter(p => p.status === 'PAID').reduce((sum, p) => sum + (p.amount || 0), 0);
 
+  const tabOptions = [
+    { value: 'tasks', label: 'Tasks', count: tasks.length, icon: <FiLayers size={14} /> },
+    { value: 'payments', label: 'Payments', count: payments.length, icon: <FiCreditCard size={14} /> },
+    { value: 'users', label: 'Users', count: users.length, icon: <FiUsers size={14} /> },
+  ];
+
   return (
     <div className="admin-page page-transition">
       <div className="page-header admin-header">
         <BrandMedia 
           variant="admin"
-          badge="OPERATIONS & GOVERNANCE"
+          badge={<ScrambledText text="OPERATIONS & GOVERNANCE" speed={30} />}
           title="Admin Dashboard"
           subtitle="Manage users, tasks, and transactions across the campus exchange."
         />
@@ -74,48 +83,44 @@ function AdminDashboard() {
         </div>
       ) : (
         <>
-          {/* Summary Cards */}
+          {/* Summary Cards with SpotlightCard */}
           <div className="admin-stats">
-            <div className="stat-card">
+            <SpotlightCard className="stat-card" spotlightColor="rgba(20, 184, 166, 0.08)">
               <div className="stat-icon"><FiUsers size={20} /></div>
               <div className="stat-body">
                 <span className="stat-value">{users.length}</span>
                 <span className="stat-label">Registered Users</span>
               </div>
-            </div>
-            <div className="stat-card">
+            </SpotlightCard>
+            <SpotlightCard className="stat-card" spotlightColor="rgba(20, 184, 166, 0.08)">
               <div className="stat-icon"><FiLayers size={20} /></div>
               <div className="stat-body">
                 <span className="stat-value">{tasks.length}</span>
                 <span className="stat-label">Total Tasks</span>
               </div>
               <span className="stat-sub">Budget pool: {totalBudget} INR</span>
-            </div>
-            <div className="stat-card">
+            </SpotlightCard>
+            <SpotlightCard className="stat-card" spotlightColor="rgba(20, 184, 166, 0.08)">
               <div className="stat-icon"><FiCreditCard size={20} /></div>
               <div className="stat-body">
                 <span className="stat-value">{totalPaid} INR</span>
                 <span className="stat-label">Total Paid</span>
               </div>
               <span className="stat-sub">{payments.length} transactions</span>
-            </div>
+            </SpotlightCard>
           </div>
 
-          {/* Tabs */}
-          <div className="tab-bar">
-            <button className={`tab ${activeTab === 'tasks' ? 'active' : ''}`} onClick={() => setActiveTab('tasks')}>
-              Tasks ({tasks.length})
-            </button>
-            <button className={`tab ${activeTab === 'payments' ? 'active' : ''}`} onClick={() => setActiveTab('payments')}>
-              Payments ({payments.length})
-            </button>
-            <button className={`tab ${activeTab === 'users' ? 'active' : ''}`} onClick={() => setActiveTab('users')}>
-              Users ({users.length})
-            </button>
+          {/* MorphSlider Tabs */}
+          <div style={{ marginTop: '24px', marginBottom: '18px' }}>
+            <MorphSlider
+              options={tabOptions}
+              activeValue={activeTab}
+              onChange={setActiveTab}
+            />
           </div>
 
-          {/* Tables */}
-          <div className="admin-table-wrap">
+          {/* Tables wrapped in SpotlightCard */}
+          <SpotlightCard className="admin-table-wrap" spotlightColor="rgba(20, 184, 166, 0.05)">
             {activeTab === 'tasks' && (
               <table className="data-table">
                 <thead>
@@ -200,7 +205,7 @@ function AdminDashboard() {
                 </tbody>
               </table>
             )}
-          </div>
+          </SpotlightCard>
         </>
       )}
       </div>
