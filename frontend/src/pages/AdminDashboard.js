@@ -56,7 +56,13 @@ function AdminDashboard() {
   };
 
   const totalBudget = tasks.reduce((sum, t) => sum + (t.budget || 0), 0);
-  const totalPaid = payments.filter(p => p.status === 'PAID').reduce((sum, p) => sum + (p.amount || 0), 0);
+  const totalPaid = payments.filter(p => p.status === 'PAID' || p.status === 'COMPLETED').reduce((sum, p) => sum + (p.amount || 0), 0);
+
+  const getUserName = (id) => {
+    if (!id) return '—';
+    const found = users.find(u => u.id === id);
+    return found ? found.name : `User #${id}`;
+  };
 
   const tabOptions = [
     { value: 'tasks', label: 'Tasks', count: tasks.length, icon: <FiLayers size={14} /> },
@@ -138,8 +144,8 @@ function AdminDashboard() {
                     <tr key={task.id}>
                       <td className="mono">{task.id}</td>
                       <td><strong>{task.title}</strong></td>
-                      <td className="mono">User {task.postedBy}</td>
-                      <td className="mono">{task.acceptedBy ? `User ${task.acceptedBy}` : '—'}</td>
+                      <td>{getUserName(task.postedBy)}</td>
+                      <td>{getUserName(task.acceptedBy)}</td>
                       <td>{task.budget} INR</td>
                       <td>
                         <span className={`status-badge ${getStatusClass(task.status)}`}>

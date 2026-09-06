@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @Service
 public class UserService {
 
-    private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z ]{5,50}$");
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{3,30}$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
     @Autowired
@@ -50,14 +50,17 @@ public class UserService {
         return password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$");
     }
 
-    // Name validation (5-50 chars, letters and spaces only, not blank)
+    // Name validation (3-30 chars, alphanumeric/underscore, no spaces)
     public void validateName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name must be at least 5 characters and contain only letters and spaces.");
+            throw new IllegalArgumentException("Name is required.");
         }
         String trimmed = name.trim();
-        if (trimmed.length() < 5 || trimmed.length() > 50 || !NAME_PATTERN.matcher(trimmed).matches()) {
-            throw new IllegalArgumentException("Name must be at least 5 characters and contain only letters and spaces.");
+        if (trimmed.contains(" ")) {
+            throw new IllegalArgumentException("Name cannot contain spaces. Use a single handle or username without spaces.");
+        }
+        if (trimmed.length() < 3 || trimmed.length() > 30 || !NAME_PATTERN.matcher(trimmed).matches()) {
+            throw new IllegalArgumentException("Name must be 3 to 30 characters and contain only letters, numbers, and underscores (no spaces).");
         }
     }
 

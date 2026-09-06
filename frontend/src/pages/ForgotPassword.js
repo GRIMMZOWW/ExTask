@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
-import { FiMail, FiShield, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
-import Logo from '../components/Logo';
-import BrandMedia from '../components/BrandMedia';
+import { FiMail, FiShield, FiLock, FiEye, FiEyeOff, FiArrowRight, FiArrowLeft } from 'react-icons/fi';
+import AuthShowcase from '../components/AuthShowcase';
 
 function ForgotPassword() {
   const [step, setStep] = useState(1);
@@ -95,41 +94,42 @@ function ForgotPassword() {
     }
   };
 
-  const getMediaVariant = () => {
-    if (step === 2) return 'auth-otp';
-    if (step === 3) return 'auth-reset';
-    return 'auth-forgot';
-  };
-
   return (
-    <div className="auth-fullscreen-page page-transition">
-      {/* Dynamic Fullscreen Background Image for each step */}
-      <BrandMedia variant={getMediaVariant()} className="auth-fullscreen-media" />
+    <div className="auth-split-page page-transition">
+      <div className="auth-split-container">
+        {/* Left Side: Brand Showcase */}
+        <AuthShowcase variant="forgot" />
 
-      <div className="auth-glass-container">
-        <div className="auth-glass-card">
-          <div className="auth-logo"><Logo size={32} showText={true} showSubtitle={true} variant="light" /></div>
-          <h2 className="auth-title">
-            {step === 1 && "forgot password"}
-            {step === 2 && "verify otp"}
-            {step === 3 && "reset password"}
-          </h2>
-          <p className="auth-subtitle">
-            {step === 1 && "Enter your registered campus email to receive a verification code."}
-            {step === 2 && "Enter the 6-digit code sent to your inbox."}
-            {step === 3 && "Choose a strong new password for your account."}
-          </p>
-
+        {/* Right Side: Auth Form */}
+        <div className="auth-form-panel">
           <div className="step-indicator">
             {[1, 2, 3].map(s => (
               <span key={s} className={`step-dot ${step >= s ? 'active' : ''}`} />
             ))}
           </div>
 
+          <div className="auth-header-text">
+            <span className="auth-badge">
+              {step === 1 && "RECOVERY"}
+              {step === 2 && "VERIFY OTP"}
+              {step === 3 && "SET PASSWORD"}
+            </span>
+            <h1 className="auth-title">
+              {step === 1 && "Reset your password"}
+              {step === 2 && "Verify OTP code"}
+              {step === 3 && "Choose new password"}
+            </h1>
+            <p className="auth-subtitle">
+              {step === 1 && "Enter your registered campus email to receive a verification code."}
+              {step === 2 && `Enter the 6-digit code sent to ${email || 'your email'}.`}
+              {step === 3 && "Choose a strong new password for your account."}
+            </p>
+          </div>
+
           {step === 1 && (
             <form onSubmit={handleRequestOtp} className="auth-form">
               <div className="form-field">
-                <label htmlFor="reset-email"><FiMail /> Email Address</label>
+                <label htmlFor="reset-email"><FiMail /> Registered Email Address</label>
                 <input 
                   id="reset-email"
                   type="email" 
@@ -138,10 +138,11 @@ function ForgotPassword() {
                   onChange={(e) => setEmail(e.target.value)} 
                   autoComplete="email"
                   required
+                  autoFocus
                 />
               </div>
-              <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
-                {loading ? "sending code..." : "send code"}
+              <button type="submit" className="btn-primary btn-full" disabled={loading}>
+                {loading ? "Sending code..." : "Send Verification Code"} <FiArrowRight size={15} style={{ marginLeft: '4px' }} />
               </button>
             </form>
           )}
@@ -149,23 +150,25 @@ function ForgotPassword() {
           {step === 2 && (
             <form onSubmit={handleVerifyOtp} className="auth-form">
               <div className="form-field">
-                <label htmlFor="reset-otp"><FiShield /> Verification Code</label>
+                <label htmlFor="reset-otp"><FiShield /> 6-Digit OTP Code</label>
                 <input 
                   id="reset-otp"
                   type="text" 
-                  placeholder="6-digit code" 
+                  placeholder="e.g. 123456" 
                   maxLength={6} 
                   value={otp} 
                   onChange={(e) => setOtp(e.target.value)} 
                   autoComplete="one-time-code"
+                  style={{ textAlign: 'center', letterSpacing: '4px', fontSize: '1.2rem', fontWeight: '700' }}
                   required
+                  autoFocus
                 />
               </div>
-              <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
-                {loading ? "verifying..." : "verify code"}
+              <button type="submit" className="btn-primary btn-full" disabled={loading}>
+                {loading ? "Verifying..." : "Verify Code"} <FiArrowRight size={15} style={{ marginLeft: '4px' }} />
               </button>
-              <button type="button" onClick={() => setStep(1)} className="btn-glass-secondary btn-full">
-                back
+              <button type="button" onClick={() => setStep(1)} className="btn-secondary btn-full" style={{ marginTop: '8px' }}>
+                <FiArrowLeft size={14} style={{ marginRight: '4px' }} /> Back to Email
               </button>
             </form>
           )}
@@ -183,6 +186,7 @@ function ForgotPassword() {
                     onChange={(e) => setNewPassword(e.target.value)} 
                     autoComplete="new-password"
                     required
+                    autoFocus
                   />
                   <button 
                     type="button" 
@@ -194,16 +198,18 @@ function ForgotPassword() {
                     {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                   </button>
                 </div>
-                <p className="form-hint">Use 8+ characters with uppercase, lowercase, a number and a special character.</p>
+                <div className="password-guidance-hint">
+                  Must contain 8+ chars with uppercase, lowercase, number & symbol.
+                </div>
               </div>
-              <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
-                {loading ? "saving..." : "save password"}
+              <button type="submit" className="btn-primary btn-full" disabled={loading}>
+                {loading ? "Saving password..." : "Save New Password"} <FiArrowRight size={15} style={{ marginLeft: '4px' }} />
               </button>
             </form>
           )}
 
           <p className="auth-footer-text">
-            Remember your password? <Link to="/login">sign in</Link>
+            Remember your password? <Link to="/login">Sign in</Link>
           </p>
         </div>
       </div>

@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
-import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
-import Logo from '../components/Logo';
-import BrandMedia from '../components/BrandMedia';
+import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from 'react-icons/fi';
+import AuthShowcase from '../components/AuthShowcase';
 
 function Register() {
   const [formData, setFormData] = useState({ 
@@ -24,9 +23,12 @@ function Register() {
       return "Name is required.";
     }
     const trimmed = name.trim();
-    const nameRegex = /^[a-zA-Z ]{5,50}$/;
-    if (trimmed.length < 5 || trimmed.length > 50 || !nameRegex.test(trimmed)) {
-      return "Name must be at least 5 characters and contain only letters and spaces.";
+    if (trimmed.includes(' ') || /\s/.test(trimmed)) {
+      return "Name cannot contain spaces. Use a single handle or username (e.g. JohnDoe or alex_dev).";
+    }
+    const nameRegex = /^[a-zA-Z0-9_]{3,30}$/;
+    if (trimmed.length < 3 || trimmed.length > 30 || !nameRegex.test(trimmed)) {
+      return "Name must be 3-30 characters with letters, numbers, or underscores (no spaces).";
     }
     return "";
   };
@@ -114,25 +116,28 @@ function Register() {
   };
 
   return (
-    <div className="auth-fullscreen-page page-transition">
-      {/* Fullscreen Dedicated Background Image */}
-      <BrandMedia variant="auth-register" className="auth-fullscreen-media" />
+    <div className="auth-split-page page-transition">
+      <div className="auth-split-container">
+        {/* Left Side: Brand Showcase */}
+        <AuthShowcase variant="register" />
 
-      <div className="auth-glass-container">
-        <div className="auth-glass-card">
-          <div className="auth-logo"><Logo size={32} showText={true} showSubtitle={true} variant="light" /></div>
-          <h2 className="auth-title">sign up</h2>
-          <p className="auth-subtitle">Join the verified campus task exchange.</p>
+        {/* Right Side: Auth Form */}
+        <div className="auth-form-panel">
+          <div className="auth-header-text">
+            <span className="auth-badge">CAMPUS NETWORK</span>
+            <h1 className="auth-title">Create your account</h1>
+            <p className="auth-subtitle">Join students across campus to exchange tasks and get work done.</p>
+          </div>
           
           <form onSubmit={handleSubmit} className="auth-form" noValidate>
             {/* Full Name */}
             <div className={`form-field ${errors.name ? 'has-error' : ''}`}>
-              <label htmlFor="reg-name"><FiUser /> Full Name</label>
+              <label htmlFor="reg-name"><FiUser /> Username / Name (No Spaces)</label>
               <input 
                 id="reg-name"
                 type="text" 
                 name="name" 
-                placeholder="Enter your full name" 
+                placeholder="e.g. PriyaKapoor or alex_dev" 
                 value={formData.name} 
                 onChange={handleChange} 
                 autoComplete="name"
@@ -181,7 +186,6 @@ function Register() {
                   {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                 </button>
               </div>
-              <p className="form-hint">Use 8+ characters with uppercase, lowercase, a number and a special character.</p>
               {errors.password && <p className="form-field-error">{errors.password}</p>}
             </div>
 
@@ -203,7 +207,7 @@ function Register() {
                   type="button" 
                   className="password-toggle-btn"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  aria-label={showConfirmPassword ? "Hide password confirmation" : "Show password confirmation"}
+                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                   tabIndex={0}
                 >
                   {showConfirmPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
@@ -212,13 +216,17 @@ function Register() {
               {errors.confirmPassword && <p className="form-field-error">{errors.confirmPassword}</p>}
             </div>
 
-            <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
-              {loading ? "creating account..." : "sign up"}
+            <div className="password-guidance-hint">
+              Must contain 8+ chars with uppercase, lowercase, number & symbol.
+            </div>
+
+            <button type="submit" className="btn-primary btn-full" disabled={loading}>
+              {loading ? "Creating account..." : "Create Account"} <FiArrowRight size={15} style={{ marginLeft: '4px' }} />
             </button>
           </form>
 
           <p className="auth-footer-text">
-            Already have an account? <Link to="/login">sign in</Link>
+            Already have an account? <Link to="/login">Sign in</Link>
           </p>
         </div>
       </div>

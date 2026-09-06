@@ -493,15 +493,15 @@ function TaskDetail() {
                 <FiUser size={13} />
                 <div>
                   <span className="tl-label">Posted By</span>
-                  <span className="tl-value">User ID {task.postedBy} {isPoster && "(You)"}</span>
+                  <span className="tl-value">{isPoster ? "You (Task Poster)" : `Campus Student #${task.postedBy}`}</span>
                 </div>
               </div>
               {task.acceptedBy && (
                 <div className="timeline-row">
                   <FiCheckCircle size={13} />
                   <div>
-                    <span className="tl-label">Accepted By</span>
-                    <span className="tl-value">User ID {task.acceptedBy} {isAccepter && "(You)"}</span>
+                    <span className="tl-label">Committed Solver</span>
+                    <span className="tl-value">{isAccepter ? "You (Solver)" : `Campus Student #${task.acceptedBy}`}</span>
                   </div>
                 </div>
               )}

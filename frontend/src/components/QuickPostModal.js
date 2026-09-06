@@ -105,10 +105,10 @@ function QuickPostModal({ isOpen, onClose }) {
         {!user ? (
           <div className="quick-post-auth-prompt">
             <div className="prompt-icon-wrap">
-              <FiShield size={36} color="#2dd4bf" />
+              <FiShield size={36} />
             </div>
-            <h3 style={{ color: '#f8fafc', fontSize: '1.2rem', fontWeight: 800 }}>Authentication Required</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.88rem' }}>You need to be signed in to post a coding task to the campus exchange feed.</p>
+            <h3 style={{ color: '#0f172a', fontSize: '1.2rem', fontWeight: 800 }}>Authentication Required</h3>
+            <p style={{ color: '#64748b', fontSize: '0.88rem' }}>You need to be signed in to post a coding task to the campus exchange feed.</p>
             <div className="prompt-cta-row">
               <Link to="/login" className="btn-primary" onClick={onClose}>
                 Sign In

@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
-import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
-import Logo from '../components/Logo';
-import BrandMedia from '../components/BrandMedia';
+import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from 'react-icons/fi';
+import AuthShowcase from '../components/AuthShowcase';
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -52,19 +51,22 @@ function Login() {
   };
 
   return (
-    <div className="auth-fullscreen-page page-transition">
-      {/* Fullscreen Dedicated Background Image */}
-      <BrandMedia variant="auth-login" className="auth-fullscreen-media" />
+    <div className="auth-split-page page-transition">
+      <div className="auth-split-container">
+        {/* Left Side: Brand Showcase */}
+        <AuthShowcase variant="login" />
 
-      <div className="auth-glass-container">
-        <div className="auth-glass-card">
-          <div className="auth-logo"><Logo size={32} showText={true} showSubtitle={true} variant="light" /></div>
-          <h2 className="auth-title">sign in</h2>
-          <p className="auth-subtitle">Sign in to continue to your campus task exchange.</p>
+        {/* Right Side: Auth Form */}
+        <div className="auth-form-panel">
+          <div className="auth-header-text">
+            <span className="auth-badge">WELCOME BACK</span>
+            <h1 className="auth-title">Sign in to ExTask</h1>
+            <p className="auth-subtitle">Access your campus workspace and active task commitments.</p>
+          </div>
           
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-field">
-              <label htmlFor="login-email"><FiMail /> Email</label>
+              <label htmlFor="login-email"><FiMail /> Email Address</label>
               <input 
                 id="login-email"
                 type="email" 
@@ -80,7 +82,7 @@ function Login() {
             <div className="form-field">
               <div className="field-header">
                 <label htmlFor="login-password"><FiLock /> Password</label>
-                <Link to="/forgot-password" className="field-link">Forgot?</Link>
+                <Link to="/forgot-password" className="field-link">Forgot Password?</Link>
               </div>
               <div className="password-input-wrapper">
                 <input 
@@ -105,13 +107,13 @@ function Login() {
               </div>
             </div>
 
-            <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
-              {loading ? "signing in..." : "sign in"}
+            <button type="submit" className="btn-primary btn-full" disabled={loading}>
+              {loading ? "Signing in..." : "Sign In"} <FiArrowRight size={15} style={{ marginLeft: '4px' }} />
             </button>
           </form>
 
           <p className="auth-footer-text">
-            Don't have an account? <Link to="/register">sign up</Link>
+            Don't have an account? <Link to="/register">Create one for free</Link>
           </p>
         </div>
       </div>

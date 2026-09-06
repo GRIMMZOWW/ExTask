@@ -31,9 +31,12 @@ function Profile() {
       return "Name is required.";
     }
     const trimmed = name.trim();
-    const nameRegex = /^[a-zA-Z ]{5,50}$/;
-    if (trimmed.length < 5 || trimmed.length > 50 || !nameRegex.test(trimmed)) {
-      return "Name must be at least 5 characters and contain only letters and spaces.";
+    if (trimmed.includes(' ') || /\s/.test(trimmed)) {
+      return "Name cannot contain spaces. Use a single handle or username (e.g. JohnDoe or alex_dev).";
+    }
+    const nameRegex = /^[a-zA-Z0-9_]{3,30}$/;
+    if (trimmed.length < 3 || trimmed.length > 30 || !nameRegex.test(trimmed)) {
+      return "Name must be 3-30 characters with letters, numbers, or underscores (no spaces).";
     }
     return "";
   };
@@ -114,14 +117,14 @@ function Profile() {
             <span className="form-section-label">01 — Account Information</span>
             
             <div className={`form-field ${errors.name ? 'has-error' : ''}`}>
-              <label htmlFor="prof-name"><FiUser size={14} /> Full Name</label>
+              <label htmlFor="prof-name"><FiUser size={14} /> Username / Name (No Spaces)</label>
               <input 
                 id="prof-name"
                 type="text" 
                 name="name" 
                 value={formData.name} 
                 onChange={handleChange} 
-                placeholder="Full Name" 
+                placeholder="e.g. PriyaKapoor or alex_dev" 
                 autoComplete="name"
               />
               {errors.name && <p className="form-field-error">{errors.name}</p>}
