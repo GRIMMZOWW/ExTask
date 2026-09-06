@@ -10,13 +10,14 @@ import ScrambledText from '../components/ScrambledText';
 import GlareHover from '../components/GlareHover';
 import StarBorder from '../components/StarBorder';
 import ScrollExpand from '../components/ScrollExpand';
-import DotField from '../components/DotField';
 import AeroShards from '../components/AeroShards';
+import QuickPostModal from '../components/QuickPostModal';
 import { FiArrowRight, FiShield, FiSend, FiCheckCircle, FiDollarSign } from 'react-icons/fi';
 
 function Landing() {
   const [openTasks, setOpenTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
@@ -60,7 +61,7 @@ function Landing() {
                   Browse Tasks
                 </ArrowButton>
               </StarBorder>
-              <ArrowButton to="/post" variant="secondary" className="hero-btn-secondary">Post a Task</ArrowButton>
+              <ArrowButton onClick={() => setIsPostModalOpen(true)} variant="secondary" className="hero-btn-secondary">Post a Task</ArrowButton>
             </div>
           </div>
 
@@ -192,17 +193,16 @@ function Landing() {
             ) : (
               <div className="empty-state">
                 <p>No open tasks right now. Be the first to post.</p>
-                <ArrowButton to="/post" variant="primary">Post a Task</ArrowButton>
+                <ArrowButton onClick={() => setIsPostModalOpen(true)} variant="primary">Post a Task</ArrowButton>
               </div>
             )}
           </section>
         </FadeContent>
 
-        {/* TRUST SECTION WITH AMBIENT DOT FIELD & AERO SHARDS */}
+        {/* TRUST SECTION WITH AERO SHARDS */}
         <ScrollExpand>
           <FadeContent delay={120} direction="up" distance={16}>
             <section className="trust-section" style={{ marginTop: '36px', position: 'relative', overflow: 'hidden' }}>
-              <DotField gap={28} baseRadius={1.2} maxRadius={2.6} dotColor="rgba(148, 163, 184, 0.2)" glowColor="rgba(20, 184, 166, 0.6)" proximity={80} />
               <AeroShards count={4} />
               <div className="trust-inner" style={{ position: 'relative', zIndex: 1 }}>
                 <h2 className="section-heading">Payment only moves when the work is approved.</h2>
@@ -241,13 +241,16 @@ function Landing() {
             <p>Post the task, find a solver, and get it completed.</p>
             <div className="hero-cta-row" style={{ justifyContent: 'center', marginTop: '20px' }}>
               <StarBorder color="#2dd4bf" speed="4.5s">
-                <ArrowButton to="/post" variant="primary" style={{ margin: 0 }}>Post a Task</ArrowButton>
+                <ArrowButton onClick={() => setIsPostModalOpen(true)} variant="primary" style={{ margin: 0 }}>Post a Task</ArrowButton>
               </StarBorder>
               <ArrowButton to="/browse" variant="secondary">Browse Tasks</ArrowButton>
             </div>
           </section>
         </FadeContent>
       </div>
+
+      {/* ReactBits Expanding Quick Post Modal */}
+      <QuickPostModal isOpen={isPostModalOpen} onClose={() => setIsPostModalOpen(false)} />
     </div>
   );
 }

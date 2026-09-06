@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
 import { FiEdit3, FiChevronLeft, FiSave } from 'react-icons/fi';
-import BrandMedia from '../components/BrandMedia';
+import ScrambledText from '../components/ScrambledText';
 
 function EditTask() {
   const { id } = useParams();
@@ -91,13 +91,13 @@ function EditTask() {
 
   return (
     <div className="workspace-page post-page page-transition">
+      {/* Clean Editorial Page Header */}
       <div className="page-header post-header">
-        <BrandMedia
-          variant="post"
-          badge="TASK EDITOR"
-          title={`Edit Task #${id}`}
-          subtitle="Update your task requirements, budget, or delivery format while it is still open."
-        />
+        <span className="page-eyebrow">
+          <ScrambledText text="TASK EDITOR" speed={30} />
+        </span>
+        <h1 className="page-title">{`Edit Task #${id}`}</h1>
+        <p className="page-subtitle">Update your task requirements, budget, or delivery format while it is still open.</p>
       </div>
 
       <div className="workspace-inner">

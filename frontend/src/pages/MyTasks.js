@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { FiSend, FiInbox, FiClock, FiDollarSign, FiArrowRight } from 'react-icons/fi';
-import BrandMedia from '../components/BrandMedia';
 import MorphSlider from '../components/MorphSlider';
 import ScrambledText from '../components/ScrambledText';
 
@@ -76,17 +75,17 @@ function MyTasks() {
 
   return (
     <div className="workspace-page page-transition">
+      {/* Clean Editorial Page Header */}
       <div className="page-header tasks-header">
-        <BrandMedia 
-          variant="tasks"
-          badge={<ScrambledText text="TASK MANAGEMENT" speed={30} />}
-          title="Your tasks."
-          subtitle="Track what you've posted and the work you've taken on."
-        />
+        <span className="page-eyebrow">
+          <ScrambledText text="TASK MANAGEMENT" speed={30} />
+        </span>
+        <h1 className="page-title">Your tasks.</h1>
+        <p className="page-subtitle">Track what you've posted and the work you've taken on.</p>
       </div>
 
       <div className="workspace-inner">
-        <div style={{ marginTop: '24px', marginBottom: '20px' }}>
+        <div style={{ marginBottom: '24px' }}>
           <MorphSlider
             options={[
               { value: 'posted', label: 'Posted Tasks', count: postedTasks.length, icon: <FiSend size={14} /> },

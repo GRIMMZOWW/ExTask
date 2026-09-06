@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
 import { FiUsers, FiLayers, FiCreditCard, FiArrowRight } from 'react-icons/fi';
-import BrandMedia from '../components/BrandMedia';
 import SpotlightCard from '../components/SpotlightCard';
 import MorphSlider from '../components/MorphSlider';
 import ScrambledText from '../components/ScrambledText';
@@ -67,13 +66,13 @@ function AdminDashboard() {
 
   return (
     <div className="admin-page page-transition">
+      {/* Clean Editorial Page Header */}
       <div className="page-header admin-header">
-        <BrandMedia 
-          variant="admin"
-          badge={<ScrambledText text="OPERATIONS & GOVERNANCE" speed={30} />}
-          title="Admin Dashboard"
-          subtitle="Manage users, tasks, and transactions across the campus exchange."
-        />
+        <span className="page-eyebrow">
+          <ScrambledText text="OPERATIONS & GOVERNANCE" speed={30} />
+        </span>
+        <h1 className="page-title">Admin Dashboard</h1>
+        <p className="page-subtitle">Manage users, tasks, and transactions across the campus exchange.</p>
       </div>
 
       <div className="workspace-inner">

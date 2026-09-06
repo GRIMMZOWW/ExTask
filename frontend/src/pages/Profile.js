@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
 import { FiUser, FiMail, FiShield, FiSave } from 'react-icons/fi';
-import BrandMedia from '../components/BrandMedia';
+import ScrambledText from '../components/ScrambledText';
 
 function Profile() {
   const navigate = useNavigate();
@@ -97,13 +97,13 @@ function Profile() {
 
   return (
     <div className="workspace-page profile-page page-transition">
+      {/* Clean Editorial Page Header */}
       <div className="page-header profile-header">
-        <BrandMedia 
-          variant="profile"
-          badge="ACCOUNT & IDENTITY"
-          title="Your profile."
-          subtitle="Manage your ExTask account credentials and identity."
-        />
+        <span className="page-eyebrow">
+          <ScrambledText text="ACCOUNT & IDENTITY" speed={30} />
+        </span>
+        <h1 className="page-title">Your profile.</h1>
+        <p className="page-subtitle">Manage your ExTask account credentials and identity.</p>
       </div>
 
       <div className="workspace-inner">

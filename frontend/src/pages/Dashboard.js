@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { FiPlus, FiSearch, FiClock, FiDollarSign, FiArrowRight, FiCheckCircle, FiSend, FiInbox } from 'react-icons/fi';
 import FadeContent from '../components/FadeContent';
-import BrandMedia from '../components/BrandMedia';
 import SpotlightCard from '../components/SpotlightCard';
 import StarBorder from '../components/StarBorder';
 import ScrambledText from '../components/ScrambledText';
@@ -65,14 +64,13 @@ function Dashboard() {
 
   return (
     <div className="workspace-page page-transition">
-      {/* Full-width BrandMedia header */}
+      {/* Clean Editorial Page Header */}
       <div className="page-header dashboard-header">
-        <BrandMedia
-          variant="dashboard"
-          badge={<ScrambledText text="STUDENT WORKSPACE" speed={30} />}
-          title={`Your workspace, ${user?.name ? user.name.split(' ')[0] : 'Student'}.`}
-          subtitle="Track your campus commitments, review deliverables, and oversee payouts."
-        />
+        <span className="page-eyebrow">
+          <ScrambledText text="STUDENT WORKSPACE" speed={30} />
+        </span>
+        <h1 className="page-title">{`Your workspace, ${user?.name ? user.name.split(' ')[0] : 'Student'}.`}</h1>
+        <p className="page-subtitle">Track your campus commitments, review deliverables, and oversee payouts.</p>
       </div>
 
       <div className="workspace-inner">

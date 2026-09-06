@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import API from '../api/axios';
 import TaskCard from '../components/TaskCard';
 import FadeContent from '../components/FadeContent';
-import BrandMedia from '../components/BrandMedia';
 import MorphSlider from '../components/MorphSlider';
 import ScrambledText from '../components/ScrambledText';
 import { FiSearch } from 'react-icons/fi';
@@ -36,15 +35,16 @@ function BrowseTasks() {
 
   return (
     <div className="browse-page page-transition">
-      {/* Full-width editorial header */}
-      <BrandMedia
-        variant="browse"
-        badge={<ScrambledText text="CAMPUS OPPORTUNITIES" speed={30} />}
-        title="Tasks worth taking."
-        subtitle="Find campus tasks, practical work, creative requests, and technical projects."
-      />
+      {/* Clean Editorial Page Header */}
+      <div className="page-header browse-header">
+        <span className="page-eyebrow">
+          <ScrambledText text="CAMPUS OPPORTUNITIES" speed={30} />
+        </span>
+        <h1 className="page-title">Tasks worth taking.</h1>
+        <p className="page-subtitle">Find campus tasks, practical work, creative requests, and technical projects.</p>
+      </div>
 
-      {/* Inner content — constrained to max-width */}
+      {/* Inner content */}
       <div className="browse-inner">
         <div className="marketplace-toolbar" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
           {/* Search Input field */}

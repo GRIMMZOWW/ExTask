@@ -4,7 +4,6 @@ import API from '../api/axios';
 import { toast } from 'react-toastify';
 import SpotlightCard from '../components/SpotlightCard';
 import StarBorder from '../components/StarBorder';
-import BrandMedia from '../components/BrandMedia';
 import ScrambledText from '../components/ScrambledText';
 import { 
   FiDollarSign, 
@@ -210,14 +209,13 @@ function TaskDetail() {
 
   return (
     <div className="detail-page page-transition">
-      {/* Full-width BrandMedia header */}
+      {/* Clean Editorial Page Header */}
       <div className="page-header detail-header">
-        <BrandMedia
-          variant="detail"
-          badge={<ScrambledText text="TASK EXCHANGE" speed={30} />}
-          title={task ? `Task #${task.id}: ${task.title}` : 'Task Details'}
-          subtitle="Review task specifications, deliverables, and milestone payouts."
-        />
+        <span className="page-eyebrow">
+          <ScrambledText text="TASK EXCHANGE" speed={30} />
+        </span>
+        <h1 className="page-title">{task ? `Task #${task.id}: ${task.title}` : 'Task Details'}</h1>
+        <p className="page-subtitle">Review task specifications, deliverables, and milestone payouts.</p>
       </div>
 
       <div className="workspace-inner">
