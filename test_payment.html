@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExTask Razorpay Real Test Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f4f7f6;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background-color: #3399cc;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11);
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #2b7fa9;
+        }
+        .info {
+            margin: 20px 0;
+            color: #666;
+            line-height: 1.6;
+        }
+        #status {
+            font-weight: bold;
+            color: #27ae60;
+            margin-top: 20px;
+        }
+    </style>
+    <!-- Include Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>ExTask Payment checkout</h1>
+        <p class="info">
+            This page will initiate a real Razorpay transaction for <strong>Task ID: 5</strong> (Budget: INR 100).
+            When you click "Pay Now", the real Razorpay popup will appear. Use any test card numbers provided by Razorpay to complete the payment.
+        </p>
+        <button id="pay-btn">Pay Now</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        document.getElementById('pay-btn').onclick = async function(e) {
+            e.preventDefault();
+            document.getElementById('status').innerText = "Creating transaction order...";
+            
+            try {
+                // 1. Create payment order on backend
+                const response = await fetch('http://localhost:8080/api/payments/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ taskId: 5 })
+                });
+
+                if (!response.ok) {
+                    const errMsg = await response.text();
+                    throw new Error(errMsg);
+                }
+
+                const paymentData = await response.json();
+                document.getElementById('status').innerText = "Order created. Opening Razorpay popup...";
+
+                // 2. Configure Razorpay Options
+                const options = {
+                    "key": paymentData.key, // Transient Razorpay Key from backend
+                    "amount": paymentData.amount * 100, // paise (transient response is in paise or INR depending on construct)
+                    "currency": paymentData.currency,
+                    "name": "ExTask Campus Marketplace",
+                    "description": "Task approval payment for Task ID 5",
+                    "order_id": paymentData.razorpayOrderId, // The Razorpay Order ID created on backend
+                    "handler": async function (checkoutResponse){
+                        document.getElementById('status').innerText = "Payment completed. Verifying on backend...";
+                        
+                        // 3. Send payment details to backend for confirmation
+                        const confirmResponse = await fetch('http://localhost:8080/api/payments/confirm', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                razorpayOrderId: checkoutResponse.razorpay_order_id,
+                                razorpayPaymentId: checkoutResponse.razorpay_payment_id
+                            })
+                        });
+
+                        if (confirmResponse.ok) {
+                            const text = await confirmResponse.text();
+                            document.getElementById('status').innerText = "Success! Payment confirmed and emails sent to both Gmail addresses.";
+                            alert("Success: " + text);
+                        } else {
+                            const err = await confirmResponse.text();
+                            document.getElementById('status').innerText = "Backend verification failed: " + err;
+                        }
+                    },
+                    "prefill": {
+                        "name": "Poster Lab Journal",
+                        "email": "labjournal9+poster@gmail.com",
+                        "contact": "9999999999"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+
+                // 3. Open checkout UI modal
+                const rzp = new Razorpay(options);
+                rzp.on('payment.failed', function (response){
+                    document.getElementById('status').innerText = "Payment failed: " + response.error.description;
+                    alert("Payment Failed: " + response.error.description);
+                });
+                rzp.open();
+            } catch (err) {
+                document.getElementById('status').innerText = "Error: " + err.message;
+                alert("Error: " + err.message);
+            }
+        };
+    </script>
+</body>
+</html>
