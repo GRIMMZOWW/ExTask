@@ -1,30 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { toast } from 'react-toastify';
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 import Logo from '../components/Logo';
 import BrandMedia from '../components/BrandMedia';
-import GlareHover from '../components/GlareHover';
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  // Redirect already authenticated users
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      if (user.role === 'ADMIN') {
-        navigate('/admin');
-      } else {
-        navigate('/');
-      }
-    }
-  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,7 +41,7 @@ function Login() {
       if (response.data.role === 'ADMIN') {
         navigate('/admin');
       } else {
-        navigate('/');
+        navigate('/dashboard');
       }
     } catch (err) {
       const errMsg = err.response?.data || "Invalid email or password.";
@@ -71,63 +57,63 @@ function Login() {
       <BrandMedia variant="auth-login" className="auth-fullscreen-media" />
 
       <div className="auth-glass-container">
-        <GlareHover maxTilt={4} glareMaxOpacity={0.12} style={{ width: '100%', maxWidth: '440px' }}>
-          <div className="auth-glass-card">
-            <div className="auth-logo"><Logo size={32} showText={true} showSubtitle={true} variant="light" /></div>
-            <h2 className="auth-title">sign in</h2>
-            <p className="auth-subtitle">Sign in to continue to your campus task exchange.</p>
+        <div className="auth-glass-card">
+          <div className="auth-logo"><Logo size={32} showText={true} showSubtitle={true} variant="light" /></div>
+          <h2 className="auth-title">sign in</h2>
+          <p className="auth-subtitle">Sign in to continue to your campus task exchange.</p>
+          
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-field">
+              <label htmlFor="login-email"><FiMail /> Email</label>
+              <input 
+                id="login-email"
+                type="email" 
+                name="email" 
+                placeholder="you@university.edu" 
+                value={formData.email} 
+                onChange={handleChange} 
+                autoComplete="email"
+                required
+              />
+            </div>
             
-            <form onSubmit={handleSubmit} className="auth-form">
-              <div className="form-field">
-                <label htmlFor="login-email"><FiMail /> Email</label>
+            <div className="form-field">
+              <div className="field-header">
+                <label htmlFor="login-password"><FiLock /> Password</label>
+                <Link to="/forgot-password" className="field-link">Forgot?</Link>
+              </div>
+              <div className="password-input-wrapper">
                 <input 
-                  id="login-email"
-                  type="email" 
-                  name="email" 
-                  placeholder="you@university.edu" 
-                  value={formData.email} 
+                  id="login-password"
+                  type={showPassword ? "text" : "password"} 
+                  name="password" 
+                  placeholder="••••••••" 
+                  value={formData.password} 
                   onChange={handleChange} 
-                  autoComplete="email"
+                  autoComplete="current-password"
+                  required
                 />
+                <button 
+                  type="button" 
+                  className="password-toggle-btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  tabIndex={0}
+                >
+                  {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                </button>
               </div>
-              
-              <div className="form-field">
-                <div className="field-header">
-                  <label htmlFor="login-password"><FiLock /> Password</label>
-                  <Link to="/forgot-password" className="field-link">Forgot?</Link>
-                </div>
-                <div className="password-input-wrapper">
-                  <input 
-                    id="login-password"
-                    type={showPassword ? "text" : "password"} 
-                    name="password" 
-                    placeholder="••••••••" 
-                    value={formData.password} 
-                    onChange={handleChange} 
-                    autoComplete="current-password"
-                  />
-                  <button 
-                    type="button" 
-                    className="password-toggle-btn"
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    tabIndex={0}
-                  >
-                    {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
-                  </button>
-                </div>
-              </div>
+            </div>
 
-              <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
-                {loading ? "signing in..." : "sign in"}
-              </button>
-            </form>
+            <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
+              {loading ? "signing in..." : "sign in"}
+            </button>
+          </form>
 
-            <p className="auth-footer-text">
-              Don't have an account? <Link to="/register">sign up</Link>
-            </p>
-          </div>
-        </GlareHover>
+          <p className="auth-footer-text">
+            Don't have an account? <Link to="/register">sign up</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
