@@ -4,6 +4,9 @@ import API from '../api/axios';
 import { FiPlus, FiSearch, FiClock, FiDollarSign, FiArrowRight, FiCheckCircle, FiSend, FiInbox } from 'react-icons/fi';
 import FadeContent from '../components/FadeContent';
 import BrandMedia from '../components/BrandMedia';
+import SpotlightCard from '../components/SpotlightCard';
+import StarBorder from '../components/StarBorder';
+import ScrambledText from '../components/ScrambledText';
 
 function Dashboard() {
   const [postedTasks, setPostedTasks] = useState([]);
@@ -66,7 +69,7 @@ function Dashboard() {
       <div className="page-header dashboard-header">
         <BrandMedia
           variant="dashboard"
-          badge="STUDENT WORKSPACE"
+          badge={<ScrambledText text="STUDENT WORKSPACE" speed={30} />}
           title={`Your workspace, ${user?.name ? user.name.split(' ')[0] : 'Student'}.`}
           subtitle="Track your campus commitments, review deliverables, and oversee payouts."
         />
@@ -79,43 +82,42 @@ function Dashboard() {
         </div>
       ) : (
         <FadeContent direction="up" distance={12} duration={400}>
-          {/* Quick Overview Summary Cards */}
+          {/* Quick Overview Summary Cards with SpotlightCard */}
           <div className="dashboard-stats">
-            <div className="stat-card">
+            <SpotlightCard className="stat-card" spotlightColor="rgba(20, 184, 166, 0.08)">
               <div className="stat-icon"><FiSend size={18} /></div>
               <div className="stat-body">
                 <span className="stat-value">{postedCount}</span>
                 <span className="stat-label">Posted by Me</span>
               </div>
-            </div>
-            <div className="stat-card">
+            </SpotlightCard>
+            <SpotlightCard className="stat-card" spotlightColor="rgba(20, 184, 166, 0.08)">
               <div className="stat-icon"><FiInbox size={18} /></div>
               <div className="stat-body">
                 <span className="stat-value">{acceptedCount}</span>
                 <span className="stat-label">Accepted by Me</span>
               </div>
-            </div>
-            <div className="stat-card">
+            </SpotlightCard>
+            <SpotlightCard className="stat-card" spotlightColor="rgba(20, 184, 166, 0.08)">
               <div className="stat-icon"><FiClock size={18} /></div>
               <div className="stat-body">
                 <span className="stat-value">{submittedCount}</span>
                 <span className="stat-label">In Review / Revisions</span>
               </div>
-            </div>
-            <div className="stat-card">
+            </SpotlightCard>
+            <SpotlightCard className="stat-card" spotlightColor="rgba(20, 184, 166, 0.08)">
               <div className="stat-icon"><FiCheckCircle size={18} /></div>
               <div className="stat-body">
                 <span className="stat-value">{paidCount}</span>
                 <span className="stat-label">Completed &amp; Paid</span>
               </div>
-            </div>
+            </SpotlightCard>
           </div>
 
           {/* Two-Column Quick Actions & Recent Activity Layout */}
           <div className="dashboard-layout-grid">
             {/* Recent Activity List */}
             <div className="detail-main" style={{ padding: '24px' }}>
-
               <h3 className="detail-section-title" style={{ marginBottom: '16px', fontSize: '0.85rem' }}>Recent Activity</h3>
               {sortedRecentTasks.length > 0 ? (
                 <div className="task-table" style={{ width: '100%' }}>
@@ -147,9 +149,11 @@ function Dashboard() {
             <div className="detail-sidebar" style={{ padding: '24px' }}>
               <h3 className="sidebar-heading" style={{ marginBottom: '16px' }}>Quick Actions</h3>
               <div className="action-zone">
-                <Link to="/post" className="btn-primary btn-full" style={{ fontSize: '0.8rem', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                  <FiPlus size={14} /> Post a Task
-                </Link>
+                <StarBorder color="#2dd4bf" speed="4.5s" style={{ width: '100%' }}>
+                  <Link to="/post" className="btn-primary btn-full" style={{ fontSize: '0.8rem', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', width: '100%', margin: 0 }}>
+                    <FiPlus size={14} /> Post a Task
+                  </Link>
+                </StarBorder>
                 <Link to="/browse" className="btn-secondary btn-full" style={{ fontSize: '0.8rem', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                   <FiSearch size={14} /> Browse Tasks
                 </Link>

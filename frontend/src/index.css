@@ -3025,3 +3025,45 @@ input, textarea, select {
   .auth-card { padding: 32px 24px; }
   .trust-grid { grid-template-columns: 1fr; }
 }
+
+/* ===================================================================
+   REACTBITS KEYFRAMES & UTILITY STYLES
+   =================================================================== */
+@keyframes starRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes waveRotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(90deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(180deg) scale(1.15);
+  }
+}
+
+@keyframes shardFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-16px) rotate(14deg);
+  }
+}
+
+.scrambled-text {
+  transition: color 0.2s ease;
+}
+
+.star-border-container:hover .star-border-beam {
+  animation-duration: 2s;
+}
+

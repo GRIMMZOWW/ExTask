@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import { FiSend, FiInbox, FiClock, FiDollarSign, FiArrowRight } from 'react-icons/fi';
 import BrandMedia from '../components/BrandMedia';
+import MorphSlider from '../components/MorphSlider';
+import ScrambledText from '../components/ScrambledText';
 
 function MyTasks() {
   const [postedTasks, setPostedTasks] = useState([]);
@@ -77,20 +79,22 @@ function MyTasks() {
       <div className="page-header tasks-header">
         <BrandMedia 
           variant="tasks"
-          badge="TASK MANAGEMENT"
+          badge={<ScrambledText text="TASK MANAGEMENT" speed={30} />}
           title="Your tasks."
           subtitle="Track what you've posted and the work you've taken on."
         />
       </div>
 
       <div className="workspace-inner">
-        <div className="tab-bar" style={{ marginTop: '24px' }}>
-          <button className={`tab ${activeTab === 'posted' ? 'active' : ''}`} onClick={() => setActiveTab('posted')}>
-            <FiSend size={14} /> Posted ({postedTasks.length})
-          </button>
-          <button className={`tab ${activeTab === 'accepted' ? 'active' : ''}`} onClick={() => setActiveTab('accepted')}>
-            <FiInbox size={14} /> Accepted ({acceptedTasks.length})
-          </button>
+        <div style={{ marginTop: '24px', marginBottom: '20px' }}>
+          <MorphSlider
+            options={[
+              { value: 'posted', label: 'Posted Tasks', count: postedTasks.length, icon: <FiSend size={14} /> },
+              { value: 'accepted', label: 'Accepted Tasks', count: acceptedTasks.length, icon: <FiInbox size={14} /> },
+            ]}
+            activeValue={activeTab}
+            onChange={setActiveTab}
+          />
         </div>
 
         {loading ? (

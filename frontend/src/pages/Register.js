@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
 import Logo from '../components/Logo';
 import BrandMedia from '../components/BrandMedia';
+import GlareHover from '../components/GlareHover';
 
 function Register() {
   const [formData, setFormData] = useState({ 
@@ -128,108 +129,110 @@ function Register() {
 
   return (
     <div className="auth-fullscreen-page page-transition">
-      {/* Fullscreen Dedicated Background Video */}
+      {/* Fullscreen Dedicated Background Image */}
       <BrandMedia variant="auth-register" className="auth-fullscreen-media" />
 
       <div className="auth-glass-container">
-        <div className="auth-glass-card">
-          <div className="auth-logo"><Logo size={32} showText={true} showSubtitle={true} variant="light" /></div>
-          <h2 className="auth-title">sign up</h2>
-          <p className="auth-subtitle">Join the verified campus task exchange.</p>
-          
-          <form onSubmit={handleSubmit} className="auth-form" noValidate>
-            {/* Full Name */}
-            <div className={`form-field ${errors.name ? 'has-error' : ''}`}>
-              <label htmlFor="reg-name"><FiUser /> Full Name</label>
-              <input 
-                id="reg-name"
-                type="text" 
-                name="name" 
-                placeholder="Enter your full name" 
-                value={formData.name} 
-                onChange={handleChange} 
-                autoComplete="name"
-              />
-              {errors.name && <p className="form-field-error">{errors.name}</p>}
-            </div>
-
-            {/* Email */}
-            <div className={`form-field ${errors.email ? 'has-error' : ''}`}>
-              <label htmlFor="reg-email"><FiMail /> Email Address</label>
-              <input 
-                id="reg-email"
-                type="email" 
-                name="email" 
-                placeholder="you@university.edu" 
-                value={formData.email} 
-                onChange={handleChange} 
-                autoComplete="email"
-              />
-              {errors.email && <p className="form-field-error">{errors.email}</p>}
-            </div>
-
-            {/* Password */}
-            <div className={`form-field ${errors.password ? 'has-error' : ''}`}>
-              <label htmlFor="reg-password"><FiLock /> Password</label>
-              <div className="password-input-wrapper">
+        <GlareHover maxTilt={4} glareMaxOpacity={0.12} style={{ width: '100%', maxWidth: '440px' }}>
+          <div className="auth-glass-card">
+            <div className="auth-logo"><Logo size={32} showText={true} showSubtitle={true} variant="light" /></div>
+            <h2 className="auth-title">sign up</h2>
+            <p className="auth-subtitle">Join the verified campus task exchange.</p>
+            
+            <form onSubmit={handleSubmit} className="auth-form" noValidate>
+              {/* Full Name */}
+              <div className={`form-field ${errors.name ? 'has-error' : ''}`}>
+                <label htmlFor="reg-name"><FiUser /> Full Name</label>
                 <input 
-                  id="reg-password"
-                  type={showPassword ? "text" : "password"} 
-                  name="password" 
-                  placeholder="••••••••" 
-                  value={formData.password} 
+                  id="reg-name"
+                  type="text" 
+                  name="name" 
+                  placeholder="Enter your full name" 
+                  value={formData.name} 
                   onChange={handleChange} 
-                  autoComplete="new-password"
+                  autoComplete="name"
                 />
-                <button 
-                  type="button" 
-                  className="password-toggle-btn"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  tabIndex={0}
-                >
-                  {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
-                </button>
+                {errors.name && <p className="form-field-error">{errors.name}</p>}
               </div>
-              <p className="form-hint">Use 8+ characters with uppercase, lowercase, a number and a special character.</p>
-              {errors.password && <p className="form-field-error">{errors.password}</p>}
-            </div>
 
-            {/* Confirm Password */}
-            <div className={`form-field ${errors.confirmPassword ? 'has-error' : ''}`}>
-              <label htmlFor="reg-confirm-password"><FiLock /> Confirm Password</label>
-              <div className="password-input-wrapper">
+              {/* Email */}
+              <div className={`form-field ${errors.email ? 'has-error' : ''}`}>
+                <label htmlFor="reg-email"><FiMail /> Email Address</label>
                 <input 
-                  id="reg-confirm-password"
-                  type={showConfirmPassword ? "text" : "password"} 
-                  name="confirmPassword" 
-                  placeholder="••••••••" 
-                  value={formData.confirmPassword} 
+                  id="reg-email"
+                  type="email" 
+                  name="email" 
+                  placeholder="you@university.edu" 
+                  value={formData.email} 
                   onChange={handleChange} 
-                  autoComplete="new-password"
+                  autoComplete="email"
                 />
-                <button 
-                  type="button" 
-                  className="password-toggle-btn"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  aria-label={showConfirmPassword ? "Hide password confirmation" : "Show password confirmation"}
-                  tabIndex={0}
-                >
-                  {showConfirmPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
-                </button>
+                {errors.email && <p className="form-field-error">{errors.email}</p>}
               </div>
-              {errors.confirmPassword && <p className="form-field-error">{errors.confirmPassword}</p>}
-            </div>
 
-            <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
-              {loading ? "creating account..." : "sign up"}
-            </button>
-          </form>
+              {/* Password */}
+              <div className={`form-field ${errors.password ? 'has-error' : ''}`}>
+                <label htmlFor="reg-password"><FiLock /> Password</label>
+                <div className="password-input-wrapper">
+                  <input 
+                    id="reg-password"
+                    type={showPassword ? "text" : "password"} 
+                    name="password" 
+                    placeholder="••••••••" 
+                    value={formData.password} 
+                    onChange={handleChange} 
+                    autoComplete="new-password"
+                  />
+                  <button 
+                    type="button" 
+                    className="password-toggle-btn"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    tabIndex={0}
+                  >
+                    {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                  </button>
+                </div>
+                <p className="form-hint">Use 8+ characters with uppercase, lowercase, a number and a special character.</p>
+                {errors.password && <p className="form-field-error">{errors.password}</p>}
+              </div>
 
-          <p className="auth-footer-text">
-            Already have an account? <Link to="/login">sign in</Link>
-          </p>
-        </div>
+              {/* Confirm Password */}
+              <div className={`form-field ${errors.confirmPassword ? 'has-error' : ''}`}>
+                <label htmlFor="reg-confirm-password"><FiLock /> Confirm Password</label>
+                <div className="password-input-wrapper">
+                  <input 
+                    id="reg-confirm-password"
+                    type={showConfirmPassword ? "text" : "password"} 
+                    name="confirmPassword" 
+                    placeholder="••••••••" 
+                    value={formData.confirmPassword} 
+                    onChange={handleChange} 
+                    autoComplete="new-password"
+                  />
+                  <button 
+                    type="button" 
+                    className="password-toggle-btn"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    aria-label={showConfirmPassword ? "Hide password confirmation" : "Show password confirmation"}
+                    tabIndex={0}
+                  >
+                    {showConfirmPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                  </button>
+                </div>
+                {errors.confirmPassword && <p className="form-field-error">{errors.confirmPassword}</p>}
+              </div>
+
+              <button type="submit" className="btn-cyan-pill btn-full" disabled={loading}>
+                {loading ? "creating account..." : "sign up"}
+              </button>
+            </form>
+
+            <p className="auth-footer-text">
+              Already have an account? <Link to="/login">sign in</Link>
+            </p>
+          </div>
+        </GlareHover>
       </div>
     </div>
   );
